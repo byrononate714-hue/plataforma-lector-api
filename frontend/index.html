@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lector+</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Lector+</div>
+        <div class="user-menu">Perfil</div>
+    </header>
+    <main class="container">
+        <aside class="sidebar">
+            <h3>Filtros</h3>
+            <div class="filter-group">
+                <label>Tipo (Obligatorio)</label>
+                <select id="tipo"><option value="">Seleccione...</option><option value="Novela">Novela</option><option value="Académico">Académico</option></select>
+            </div>
+            <div class="filter-group">
+                <label>Etiqueta (Obligatorio)</label>
+                <select id="etiqueta"><option value="">Seleccione...</option><option value="Fantasía Oscura">Fantasía Oscura</option><option value="Ingeniería">Ingeniería</option></select>
+            </div>
+            <button id="btnBuscar" class="btn-primary">Buscar</button>
+        </aside>
+        <section class="content-area">
+            <h2>Resultados</h2>
+            <div id="resultadosGrid" class="grid-container"></div>
+        </section>
+    </main>
+    <div id="toast" class="toast hidden">Agregado con éxito</div>
+    <script src="app.js"></script>
+</body>
+</html>
