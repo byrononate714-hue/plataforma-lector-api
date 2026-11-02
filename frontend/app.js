@@ -185,3 +185,57 @@ async function agregarColeccion(idContenido) {
         mostrarToast('Error de red al procesar la solicitud', true);
     }
 }
+// ==========================================
+// 5. EVENTOS DE INTERFAZ Y MANEJO DE SESIÓN
+// ==========================================
+
+// Se ejecuta apenas carga la página web
+document.addEventListener('DOMContentLoaded', () => {
+    verificarEstadoSesion();
+});
+
+// Evento: Botón de Iniciar Sesión
+document.getElementById('btnLogin')?.addEventListener('click', async () => {
+    const correo = document.getElementById('loginCorreo').value.trim();
+    const pass = document.getElementById('loginPassword').value.trim();
+
+    if (!correo || !pass) {
+        mostrarToast('Por favor, completa ambos campos', true);
+        return;
+    }
+
+    // Llama a la función login() que creamos en la Parte 3
+    const exito = await login(correo, pass);
+    if (exito) {
+        verificarEstadoSesion();
+    }
+});
+
+// Evento: Botón de Cerrar Sesión
+document.getElementById('btnLogout')?.addEventListener('click', () => {
+    cerrarSesion(); // Elimina el token del localStorage
+    verificarEstadoSesion(); // Restaura la interfaz
+});
+
+// Cambia entre el formulario de login y la aplicación principal
+function verificarEstadoSesion() {
+    const token = obtenerToken();
+    const usuario = obtenerUsuario();
+    
+    const formLogin = document.getElementById('loginFormContainer');
+    const appMain = document.getElementById('appContainer');
+    const userPanel = document.getElementById('userPanel');
+
+    if (token && usuario) {
+        // Usuario logueado: Mostrar App, ocultar Login
+        formLogin.classList.add('hidden');
+        appMain.classList.remove('hidden');
+        userPanel.innerHTML = `<strong>👤 ${usuario.nombre}</strong> (${usuario.rol})`;
+    } else {
+        // Usuario sin sesión: Mostrar Login, ocultar App
+        formLogin.classList.remove('hidden');
+        appMain.classList.add('hidden');
+        userPanel.innerHTML = '';
+        document.getElementById('loginPassword').value = ''; // Limpiar campo de seguridad
+    }
+}
