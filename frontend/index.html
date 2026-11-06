@@ -3,31 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lector+ | Etapa 2</title>
+    <title>Lector+ | Plataforma</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos extra para el menú de navegación */
+        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
+        .nav-links a:hover { text-decoration: underline; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #2c3e50; color: white; }
+    </style>
 </head>
 <body>
-    <!-- Barra de Navegación -->
+    <!-- Barra de Navegación Global -->
     <nav class="navbar">
-        <h2>Lector+</h2>
-        <div id="userPanel">
-            <!-- Aquí se insertará el nombre del usuario al iniciar sesión -->
+        <div style="display: flex; align-items: center;">
+            <h2 style="margin: 0; margin-right: 30px;">Lector+</h2>
+            <div class="nav-links" id="navMenu">
+                <a href="#" id="nav-home">Inicio</a>
+                <a href="#" id="nav-search">Buscar</a>
+                <a href="#" id="nav-profile">Mi Perfil</a>
+            </div>
+        </div>
+        <div style="display:flex; align-items: center; gap: 15px;">
+            <span id="userPanel"></span>
+            <button id="btnLogout" class="btn-primary" style="background: #e74c3c; padding: 5px 15px;">Salir</button>
         </div>
     </nav>
 
-<!-- Pantalla 1: Autenticación (Login / Registro) -->
-    <div id="authContainer" class="container">
-        
+    <!-- PANTALLA 1: Autenticación (Login / Registro) -->
+    <div id="view-auth" class="container">
         <!-- Formulario de Iniciar Sesión -->
         <div id="loginBox" class="sidebar" style="width: 100%; max-width: 400px; margin: 2rem auto;">
             <h3 style="margin-top: 0;">Iniciar Sesión</h3>
             <div class="filter-group">
                 <label>Correo Electrónico:</label>
-                <input type="email" id="loginCorreo" placeholder="juan@email.com" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+                <input type="email" id="loginCorreo" placeholder="juan@email.com" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem;">
             </div>
             <div class="filter-group">
                 <label>Contraseña:</label>
-                <input type="password" id="loginPassword" placeholder="Tu contraseña" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+                <input type="password" id="loginPassword" placeholder="Tu contraseña" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem;">
             </div>
             <button id="btnLogin" class="btn-primary" style="width: 100%; margin-top: 1rem;">Ingresar</button>
             <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
@@ -40,26 +53,35 @@
             <h3 style="margin-top: 0;">Crear Cuenta</h3>
             <div class="filter-group">
                 <label>Nombre Completo:</label>
-                <input type="text" id="regNombre" placeholder="Ej: María López" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+                <input type="text" id="regNombre" placeholder="Ej: María López" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem;">
             </div>
             <div class="filter-group">
                 <label>Correo Electrónico:</label>
-                <input type="email" id="regCorreo" placeholder="maria@email.com" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+                <input type="email" id="regCorreo" placeholder="maria@email.com" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem;">
             </div>
             <div class="filter-group">
                 <label>Contraseña:</label>
-                <input type="password" id="regPassword" placeholder="Crea una contraseña" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+                <input type="password" id="regPassword" placeholder="Crea una contraseña" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem;">
             </div>
             <button id="btnRegister" class="btn-primary" style="background: #2ecc71; width: 100%; margin-top: 1rem;">Registrarme</button>
             <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
                 ¿Ya tienes cuenta? <a href="#" id="linkToLogin" style="color: #3498db;">Inicia sesión</a>
             </p>
         </div>
-
     </div>
 
-    <!-- Pantalla Principal (Buscador y Catálogo) -->
-    <div id="appContainer" class="container hidden">
+    <!-- PANTALLA 2: Principal (Populares) -->
+    <div id="view-home" class="container hidden">
+        <main class="content-area" style="width: 100%;">
+            <h2>Contenidos Más Populares</h2>
+            <div id="popularesGrid" class="grid-container">
+                <p class="empty-msg">Muy pronto conectaremos esta sección con la base de datos para mostrar los libros más leídos.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- PANTALLA 3: Búsqueda -->
+    <div id="view-search" class="container hidden">
         <!-- Panel de Filtros -->
         <aside class="sidebar">
             <h3 style="margin-top: 0;">Filtros de Búsqueda</h3>
@@ -72,22 +94,49 @@
                 </select>
             </div>
             <button id="btnBuscar" class="btn-primary">Buscar Contenido</button>
-            <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #eee;">
-            <button id="btnLogout" class="btn-primary" style="background: #e74c3c;">Cerrar Sesión</button>
         </aside>
         
         <!-- Grilla de Resultados -->
         <main class="content-area">
+            <h2>Catálogo de Libros</h2>
             <div id="resultadosGrid" class="grid-container">
                 <p class="empty-msg">Utiliza los filtros de la izquierda para buscar material bibliográfico.</p>
             </div>
         </main>
     </div>
 
+    <!-- PANTALLA 4: Usuario (Perfil y Subida) -->
+    <div id="view-profile" class="container hidden">
+        <aside class="sidebar">
+            <h3 style="margin-top: 0;">Subir Contenido</h3>
+            <p style="font-size: 0.9rem; color: #666;">Formulario de subida en construcción.</p>
+            <!-- Aquí agregaremos el formulario de subida después -->
+        </aside>
+        
+        <main class="content-area">
+            <h2>Mi Biblioteca Guardada</h2>
+            <div id="coleccionGrid" class="grid-container">
+                <p class="empty-msg">Tu colección se mostrará aquí.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- PANTALLA 5: Modo Lectura -->
+    <div id="view-read" class="container hidden" style="flex-direction: column;">
+        <button class="btn-primary" onclick="cambiarPantalla('search')" style="align-self: flex-start; margin-bottom: 1rem; background:#7f8c8d;">← Volver a Búsqueda</button>
+        <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h2 id="lecturaTitulo" style="margin-top:0;">Título del Libro</h2>
+            <h4 id="lecturaAutor" style="color: #7f8c8d;">Autor</h4>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 1.5rem 0;">
+            <div id="lecturaContenido" style="min-height: 400px; line-height: 1.6;">
+                <!-- Aquí se inyectará el contenido simulado -->
+            </div>
+        </div>
+    </div>
+
     <!-- Contenedor para Notificaciones Flotantes (Toast) -->
     <div id="toast" class="toast hidden"></div>
 
-    <!-- Lógica de la aplicación -->
     <script src="app.js"></script>
 </body>
 </html>
