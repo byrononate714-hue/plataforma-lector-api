@@ -239,3 +239,54 @@ function verificarEstadoSesion() {
         document.getElementById('loginPassword').value = ''; // Limpiar campo de seguridad
     }
 }
+// ==========================================
+// NUEVO: LÓGICA DE REGISTRO DE USUARIO
+// ==========================================
+
+// Alternar entre Login y Registro
+document.getElementById('linkToRegister')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('registerBox').classList.remove('hidden');
+});
+
+document.getElementById('linkToLogin')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('registerBox').classList.add('hidden');
+    document.getElementById('loginBox').classList.remove('hidden');
+});
+
+// Evento: Botón Registrarme
+document.getElementById('btnRegister')?.addEventListener('click', async () => {
+    const nombre = document.getElementById('regNombre').value.trim();
+    const correo = document.getElementById('regCorreo').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
+
+    if (!nombre || !correo || !password) {
+        mostrarToast('Por favor, completa todos los campos', true);
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, correo, password })
+        });
+        
+        const data = await respuesta.json();
+        
+        if (respuesta.ok) {
+            mostrarToast('Cuenta creada con éxito. Inicia sesión.', false);
+            // Limpiar campos y volver al login
+            document.getElementById('regNombre').value = '';
+            document.getElementById('regCorreo').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('linkToLogin').click();
+        } else {
+            mostrarToast(`Error: ${data.error}`, true);
+        }
+    } catch (error) {
+        mostrarToast('Error de conexión al servidor', true);
+    }
+});
