@@ -334,3 +334,77 @@ verificarEstadoSesion = function() {
         cargarPopulares(); // <--- Llama a la función al iniciar sesión correctamente
     }
 }
+// ==========================================
+// PANTALLA 4: MI PERFIL (Colección y Subida)
+// ==========================================
+
+// Cargar la biblioteca personal
+async function cargarMiColeccion() {
+    const usuario = obtenerUsuario();
+    const grid = document.getElementById('coleccionGrid');
+    if (!usuario || !grid) return;
+
+    try {
+        const res = await fetch(`${API_URL}/usuario/coleccion?id_usuario=${usuario._id || usuario.id_usuario}`, {
+            headers: obtenerHeaders(true)
+        });
+        const json = await res.json();
+
+        if (res.ok && json.data && json.data.length > 0) {
+            grid.innerHTML = '';
+            json.data.forEach(item => {
+                grid.innerHTML += `
+                    <div class="card" style="border-top: 4px solid #3498db;">
+                        <h3>${item.titulo}</h3>
+                        <p style="font-size: 0.85rem; color: #7f8c8d;">Agregado el: ${new Date(item.fecha_agregado).toLocaleDateString()}</p>
+                        <button class="btn-primary" onclick="abrirLectura('${item.titulo}', 'Autor desde colección')" style="width: 100%; margin-top: 10px;">Continuar Leyendo</button>
+                    </div>`;
+            });
+        } else {
+            grid.innerHTML = '<p class="empty-msg">Tu biblioteca personal está vacía. Ve a la sección Buscar para agregar libros.</p>';
+        }
+    } catch (e) {
+        grid.innerHTML = '<p class="empty-msg" style="color: red;">Error al cargar tu colección.</p>';
+    }
+}
+
+// Sobrescribimos el botón de "Mi Perfil" del Menú para que cargue los libros al entrar
+document.getElementById('nav-profile')?.addEventListener('click', (e) => { 
+    e.preventDefault(); 
+    cambiarPantalla('profile'); 
+    cargarMiColeccion(); 
+});
+
+// Evento del botón "Publicar en el Catálogo"
+document.getElementById('btnSubir')?.addEventListener('click', async () => {
+    const titulo = document.getElementById('nuevoTitulo').value.trim();
+    const autor = document.getElementById('nuevoAutor').value.trim();
+    const tipo = document.getElementById('nuevoTipo').value;
+    const etiqueta = document.getElementById('nuevaEtiqueta').value.trim();
+
+    if (!titulo || !autor || !etiqueta) {
+        mostrarToast('Completa todos los campos para subir', true);
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/contenidos/crear`, {
+            method: 'POST',
+            headers: obtenerHeaders(true),
+            body: JSON.stringify({ titulo, autor, tipo, etiqueta })
+        });
+        
+        if (res.ok) {
+            mostrarToast('Libro subido al catálogo con éxito', false);
+            // Limpiar los inputs
+            document.getElementById('nuevoTitulo').value = '';
+            document.getElementById('nuevoAutor').value = '';
+            document.getElementById('nuevaEtiqueta').value = '';
+        } else {
+            const data = await res.json();
+            mostrarToast(`Error: ${data.error}`, true);
+        }
+    } catch (e) {
+        mostrarToast('Error de red al subir contenido', true);
+    }
+});
