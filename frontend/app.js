@@ -280,3 +280,57 @@ function abrirLectura(titulo, autor) {
 document.addEventListener('DOMContentLoaded', () => {
     verificarEstadoSesion();
 });
+// ==========================================
+// CARGAR CONTENIDOS POPULARES (Pantalla 2)
+// ==========================================
+async function cargarPopulares() {
+    const grid = document.getElementById('popularesGrid');
+    if (!grid) return;
+
+    try {
+        const res = await fetch(`${API_URL}/contenidos/populares`, {
+            headers: obtenerHeaders(false) // No requiere token, es público
+        });
+        const json = await res.json();
+
+        if (res.ok && json.data && json.data.length > 0) {
+            grid.innerHTML = ''; // Limpiamos el texto de "en construcción"
+            json.data.forEach(item => {
+                grid.innerHTML += `
+                    <div class="card" style="border-top: 4px solid #f39c12;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <h3>${item.titulo}</h3>
+                            <span title="Veces guardado">⭐ ${item.popularidad || 0}</span>
+                        </div>
+                        <p><strong>Autor:</strong> ${item.autor}</p>
+                        <p class="tag-badge"><strong>Tipo:</strong> ${item.tipo}</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn-add" onclick="agregarColeccion('${item._id}')">+ A mi Colección</button>
+                            <button class="btn-primary" onclick="abrirLectura('${item.titulo}', '${item.autor}')" style="flex:1;">Leer</button>
+                        </div>
+                    </div>`;
+            });
+        } else {
+            grid.innerHTML = '<p class="empty-msg">Aún no hay contenidos populares para mostrar.</p>';
+        }
+    } catch (e) {
+        console.error('Error cargando populares:', e);
+        grid.innerHTML = '<p class="empty-msg" style="color: red;">Error al cargar los contenidos.</p>';
+    }
+}
+
+// Modificamos la navegación para que cargue los libros al entrar al Inicio
+document.getElementById('nav-home')?.addEventListener('click', (e) => { 
+    e.preventDefault(); 
+    cambiarPantalla('home'); 
+    cargarPopulares(); // <--- Llama a la función al hacer clic en Inicio
+});
+
+// Y modificamos verificarEstadoSesion() para que los cargue si iniciamos sesión
+const oldVerificar = verificarEstadoSesion;
+verificarEstadoSesion = function() {
+    oldVerificar();
+    if (obtenerToken()) {
+        cargarPopulares(); // <--- Llama a la función al iniciar sesión correctamente
+    }
+}
