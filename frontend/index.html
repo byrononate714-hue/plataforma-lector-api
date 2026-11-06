@@ -15,9 +15,11 @@
         </div>
     </nav>
 
-    <!-- Pantalla de Inicio de Sesión -->
-    <div id="loginFormContainer" class="container">
-        <div class="sidebar" style="width: 100%; max-width: 400px; margin: 2rem auto;">
+<!-- Pantalla 1: Autenticación (Login / Registro) -->
+    <div id="authContainer" class="container">
+        
+        <!-- Formulario de Iniciar Sesión -->
+        <div id="loginBox" class="sidebar" style="width: 100%; max-width: 400px; margin: 2rem auto;">
             <h3 style="margin-top: 0;">Iniciar Sesión</h3>
             <div class="filter-group">
                 <label>Correo Electrónico:</label>
@@ -25,10 +27,35 @@
             </div>
             <div class="filter-group">
                 <label>Contraseña:</label>
-                <input type="password" id="loginPassword" placeholder="hash_seguro_123" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+                <input type="password" id="loginPassword" placeholder="Tu contraseña" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
             </div>
-            <button id="btnLogin" class="btn-primary">Ingresar</button>
+            <button id="btnLogin" class="btn-primary" style="width: 100%; margin-top: 1rem;">Ingresar</button>
+            <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+                ¿No tienes cuenta? <a href="#" id="linkToRegister" style="color: #3498db;">Regístrate aquí</a>
+            </p>
         </div>
+
+        <!-- Formulario de Crear Cuenta (Oculto por defecto) -->
+        <div id="registerBox" class="sidebar hidden" style="width: 100%; max-width: 400px; margin: 2rem auto;">
+            <h3 style="margin-top: 0;">Crear Cuenta</h3>
+            <div class="filter-group">
+                <label>Nombre Completo:</label>
+                <input type="text" id="regNombre" placeholder="Ej: María López" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+            </div>
+            <div class="filter-group">
+                <label>Correo Electrónico:</label>
+                <input type="email" id="regCorreo" placeholder="maria@email.com" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+            </div>
+            <div class="filter-group">
+                <label>Contraseña:</label>
+                <input type="password" id="regPassword" placeholder="Crea una contraseña" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+            </div>
+            <button id="btnRegister" class="btn-primary" style="background: #2ecc71; width: 100%; margin-top: 1rem;">Registrarme</button>
+            <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+                ¿Ya tienes cuenta? <a href="#" id="linkToLogin" style="color: #3498db;">Inicia sesión</a>
+            </p>
+        </div>
+
     </div>
 
     <!-- Pantalla Principal (Buscador y Catálogo) -->
