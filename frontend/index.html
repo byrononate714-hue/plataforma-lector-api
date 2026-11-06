@@ -105,18 +105,39 @@
         </main>
     </div>
 
-    <!-- PANTALLA 4: Usuario (Perfil y Subida) -->
+<!-- PANTALLA 4: Usuario (Perfil y Subida) -->
     <div id="view-profile" class="container hidden">
+        
+        <!-- Formulario para Subir Contenido -->
         <aside class="sidebar">
-            <h3 style="margin-top: 0;">Subir Contenido</h3>
-            <p style="font-size: 0.9rem; color: #666;">Formulario de subida en construcción.</p>
-            <!-- Aquí agregaremos el formulario de subida después -->
+            <h3 style="margin-top: 0;">Subir Nuevo Libro</h3>
+            <div class="filter-group">
+                <label>Título:</label>
+                <input type="text" id="nuevoTitulo" placeholder="Ej: Cálculo II" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+            </div>
+            <div class="filter-group">
+                <label>Autor:</label>
+                <input type="text" id="nuevoAutor" placeholder="Ej: James Stewart" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+            </div>
+            <div class="filter-group">
+                <label>Tipo:</label>
+                <select id="nuevoTipo" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+                    <option value="Académico">Académico</option>
+                    <option value="Novela">Novela</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Etiqueta / Categoría:</label>
+                <input type="text" id="nuevaEtiqueta" placeholder="Ej: Matemáticas" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; box-sizing: border-box;">
+            </div>
+            <button id="btnSubir" class="btn-primary" style="width: 100%; margin-top: 1rem; background: #27ae60;">Publicar en el Catálogo</button>
         </aside>
         
+        <!-- Grilla de la Biblioteca Personal -->
         <main class="content-area">
             <h2>Mi Biblioteca Guardada</h2>
             <div id="coleccionGrid" class="grid-container">
-                <p class="empty-msg">Tu colección se mostrará aquí.</p>
+                <p class="empty-msg">Cargando tu colección...</p>
             </div>
         </main>
     </div>
